@@ -276,7 +276,7 @@ void kdl::printMatrix(Matrix M) {
 void kdl::printVector(State p) {
 	cout << "[";
 	for (unsigned i = 0; i < p.size(); i++)
-		cout << p[i] << " ";
+		cout << p[i] << ", ";
 	cout << "]" << endl;
 }
 

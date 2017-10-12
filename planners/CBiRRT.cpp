@@ -215,6 +215,10 @@ ompl::geometric::CBiRRT::Motion* ompl::geometric::CBiRRT::growTree(TreeData &tre
 
 			nmotion = motion;
 
+			//cout << " =========================\n";
+			//printStateVector(motion->state);
+			//printStateVector(motion->root);
+
 			if (reach) {
 				growTree_reached = true;
 				return nmotion;
@@ -392,7 +396,7 @@ ompl::base::PlannerStatus ompl::geometric::CBiRRT::solve(const base::PlannerTerm
 
 			final_solved = true;
 			LogPerf2file(); // Log planning parameters
-			//save2file(mpath1, mpath2);
+			save2file(mpath1, mpath2);
 
 			pdef_->addSolutionPath(base::PathPtr(path), false, 0.0, getName());
 			solved = true;

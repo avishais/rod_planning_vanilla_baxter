@@ -97,18 +97,16 @@ void StateValidityChecker::printStateVector(const ob::State *state) {
 	const ob::RealVectorStateSpace::StateType *A = C_state->as<ob::RealVectorStateSpace::StateType>(0);
 	const ob::RealVectorStateSpace::StateType *Q = C_state->as<ob::RealVectorStateSpace::StateType>(1);
 
-	State a(na), q1(nq/2), q2(nq/2);
+	State a(na), q(nq);
 
 	for (unsigned i = 0; i < na; i++)
 		a[i] = A->values[i]; // Set state of rod
-	for (unsigned i = 0; i < nq/2; i++) {
-		q1[i] = Q->values[i]; // Set state of robot1
-		q2[i] = Q->values[i+nq/2]; // Set state of robot1
+	for (unsigned i = 0; i < nq; i++) {
+		q[i] = Q->values[i]; // Set state of robot1
 	}
 
 	cout << "a: "; kdl::printVector(a);
-	cout << "q1: "; kdl::printVector(q1);
-	cout << "q2: "; kdl::printVector(q2);
+	cout << "q: "; kdl::printVector(q);
 }
 
 // ----------------------- v GD functions v ----------------------------
