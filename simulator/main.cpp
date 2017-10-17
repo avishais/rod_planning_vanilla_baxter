@@ -11,10 +11,10 @@
 
 PQP_Model base, link1, link2, link3, link4, link5, link6, link7, ped;
 Model *base_to_draw, *link1_to_draw, *link2_to_draw, *link3_to_draw, \
-*link4_to_draw, *link5_to_draw, *link6_to_draw, *link7_to_draw, *ped_to_draw, *clamps_to_draw, *clamps_to_draw2, *table_to_draw, *obs1_to_draw, *wall_to_draw;
+*link4_to_draw, *link5_to_draw, *link6_to_draw, *link7_to_draw, *ped_to_draw, *clamps_to_draw, *clamps_to_draw2, *table_to_draw, *obs1_to_draw, *cone_to_draw;
 
 PQP_Model base2, link12, link22, link32, link42, link52, link62, link72, rod, EE, EE2, clmp, clmp2;
-PQP_Model table, obs1, wall;
+PQP_Model table, obs1, cone;
 Model *link1_to_draw2, *link2_to_draw2, *link3_to_draw2, \
 *link4_to_draw2, *link5_to_draw2, *link6_to_draw2, *link7_to_draw2, \
 *rod_to_draw, *EE_to_draw, *EE_to_draw2;
@@ -786,8 +786,8 @@ void DisplayCB()
 
 		//MxVpV(V,Rrod,P,TEE);
 		MxVpV(V,Rrod_v,P,Trod); // <--- Changed this also on 10/10/2017
-		//glColor3d(.93, .69, .13);//.93, .69, .13);//
-		glColor3d(1.0, 1.0, 1.0);//.93, .69, .13);//
+		glColor3d(.93, .69, .13);//.93, .69, .13);//
+		//glColor3d(1.0, 1.0, 1.0);//.93, .69, .13);//
 		glPushMatrix();
 		glTranslated(V[0],V[1],V[2]);
 		glutSolidSphere(14,15,15);
@@ -840,25 +840,34 @@ void DisplayCB()
 		glPopMatrix();
 
 		// Obs 1
-		/*MRotZ(R0,0);
-		Ti[0] = 900; Ti[1] = -175; Ti[2] = -100;
+		MRotZ(R0,0);
+		Ti[0] = 900; Ti[1] = -500; Ti[2] = 20;
 		glColor3d(1.0,1.0,1.0);
 		MVtoOGL(oglm,R0,Ti);
 		glPushMatrix();
 		glMultMatrixd(oglm);
 		obs1_to_draw->Draw();
-		glPopMatrix();*/
+		glPopMatrix();
 
-		// Wall
-		/*MRotZ(R0,0*3.1415926/180);
-		Ti[0] = 1010; Ti[1] = -20; Ti[2] = 170;
-		//Ti[0] = 980; Ti[1] = -125; Ti[2] = 50;
-		glColor3d(1.0,0.0,0.0);
+		// Cone 1
+		MRotX(R0,0);
+		Ti[0] = 910; Ti[1] = 260; Ti[2] = 20;
+		glColor3d(1.0,1.0,1.0);
 		MVtoOGL(oglm,R0,Ti);
 		glPushMatrix();
 		glMultMatrixd(oglm);
-		wall_to_draw->Draw();
-		glPopMatrix();*/
+		cone_to_draw->Draw();
+		glPopMatrix();
+
+		// Cone 2
+		MRotX(R0,3.1415926);
+		Ti[0] = 910; Ti[1] = 260; Ti[2] = 380*2+80;
+		glColor3d(1.0,1.0,1.0);
+		MVtoOGL(oglm,R0,Ti);
+		glPushMatrix();
+		glMultMatrixd(oglm);
+		cone_to_draw->Draw();
+		glPopMatrix();
 
 	}
 
@@ -1366,13 +1375,13 @@ void load_models(){
 		fclose(fp);
 
 		// initialize wall
-		wall_to_draw = new Model("wall4s.tris");
+		cone_to_draw = new Model("cone.tris");
 
-		fp = fopen("wall4s.tris","r");
-		if (fp == NULL) { fprintf(stderr,"Couldn't open wall.tris\n"); exit(-1); }
+		fp = fopen("cone.tris","r");
+		if (fp == NULL) { fprintf(stderr,"Couldn't open cone.tris\n"); exit(-1); }
 		fscanf(fp,"%d",&ntris);
 
-		wall.BeginModel();
+		cone.BeginModel();
 		for (i = 0; i < ntris; i++)
 		{
 			double p1x,p1y,p1z,p2x,p2y,p2z,p3x,p3y,p3z;
@@ -1382,9 +1391,9 @@ void load_models(){
 			p1[0] = (PQP_REAL)p1x; p1[1] = (PQP_REAL)p1y; p1[2] = (PQP_REAL)p1z;
 			p2[0] = (PQP_REAL)p2x; p2[1] = (PQP_REAL)p2y; p2[2] = (PQP_REAL)p2z;
 			p3[0] = (PQP_REAL)p3x; p3[1] = (PQP_REAL)p3y; p3[2] = (PQP_REAL)p3z;
-			wall.AddTri(p1,p2,p3,i);
+			cone.AddTri(p1,p2,p3,i);
 		}
-		wall.EndModel();
+		cone.EndModel();
 		fclose(fp);
 	}
 
