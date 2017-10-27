@@ -173,26 +173,18 @@ bool StateValidityChecker::GDproject(ob::State *st) {
 
 bool StateValidityChecker::GDproject(State a, State &q) {
 
-	kdl::IK_counter++;
-	clock_t sT = clock();
-
 	if (!isRodFeasible(a))
 		return false;
 	Matrix Q = getT(get_Points_on_Rod()-1);
 
-	if (!GD(q, Q)) { // GD checks for joint limits
-		kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
+	if (!GD(q, Q)) // GD checks for joint limits
 		return false;
-	}
 
 	q = get_GD_result();
 
-	if (withObs && collision_state(getPMatrix(), q)) {
-		kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
+	if (withObs && collision_state(getPMatrix(), q))
 		return false;
-	}
 
-	kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
 	return true;
 }
 
@@ -200,22 +192,14 @@ bool StateValidityChecker::GDproject(State &q, Matrix Q) {
 
 	State q1(nq/2), q2(nq/2);
 
-	kdl::IK_counter++;
-	clock_t sT = clock();
-
-	if (!GD(q, Q)) { // GD checks for joint limits
-		kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
+	if (!GD(q, Q)) // GD checks for joint limits
 		return false;
-	}
 
 	q = get_GD_result();
 
-	if (withObs && collision_state(getPMatrix(), q)) {
-		kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
+	if (withObs && collision_state(getPMatrix(), q))
 		return false;
-	}
 
-	kdl::IK_time += double(clock() - sT) / CLOCKS_PER_SEC;
 	return true;
 }
 

@@ -620,7 +620,7 @@ void ompl::geometric::CBiRRT::save2file(vector<Motion*> mpath1, vector<Motion*> 
 		for (unsigned int i = 0 ; i < mpath2.size() ; ++i)
 			path.push_back(mpath2[i]);
 
-		//smoothPath(path);
+		smoothPath(path);
 
 		// First point
 		retrieveStateVector(path[0]->state, a, q);

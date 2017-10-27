@@ -6,7 +6,7 @@ clear all
 clc
 
 %%
-planners = {'CBiRRT','RRT','LazyRRT','SBL'};
+planners = {'CBiRRT','RRT','SBL','LazyRRT'};
 plannerType = planners{1};
 switch plannerType
     case 'CBiRRT'
@@ -27,7 +27,6 @@ for i = 1:length(rd)
     td(i) = mean(M(:,3));
     td_ste(i) = std(M(:,3))/sqrt(size(M,1));
 end
-
 
 %%
 disp(' ');
@@ -74,7 +73,7 @@ disp(['ODE checks: ' num2str(mean(D(:,17))) ' with ' num2str(100*mean( D(:,18)./
 %%
 td = D(:,3);
 maxT = max(td);
-T1 = linspace(0,maxT,5);
+T1 = linspace(0,maxT,30);
 T1 = T1(2:end);
 for i = 1:length(T1)
     sd = td < T1(i);

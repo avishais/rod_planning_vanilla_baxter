@@ -1,6 +1,6 @@
 #include "collisionDetection.h"
 
-#define CADLINK "/home/avishai/Downloads/omplapp/ompl/Workspace/precomputation/Baxter/simulator/"
+#define CADLINK "./simulator/"
 
 collisionDetection::collisionDetection() {
 
@@ -362,8 +362,8 @@ int collisionDetection::collision_state(Matrix M, State q)
 
 	// perform tolerance query
 
-	PQP_REAL tolerance = 10.0;
-	PQP_ToleranceResult res[124];
+	PQP_REAL tolerance = 5.0;
+	PQP_ToleranceResult res[133];
 
 	// robot 1 collision
 	PQP_Tolerance(&res[0],R0,TP,&ped,R5,T5,&link5,tolerance);
@@ -487,12 +487,12 @@ int collisionDetection::collision_state(Matrix M, State q)
 
 	//Collision with obstacles
 	if(withObs) {
-		PQP_REAL Ttable[3], Twall[3];
-		PQP_REAL Rtable[3][3], Rwall[3][3];
+		PQP_REAL Ttable[3], Tcone[3];
+		PQP_REAL Rtable[3][3], Rcone[3][3];
 
 		// Table
-		MRotZ(Rtable,3.1415926/2);
-		Ttable[0]=1000; Ttable[1]=0; Ttable[2]=20;
+		MRotZ(Rtable, 3.1415926/2);
+		Ttable[0] = 850; Ttable[1] = 0; Ttable[2] = 20;
 
 		PQP_Tolerance(&res[106],Rtable,Ttable,&table,REE,TEE,&EE,tolerance);
 		PQP_Tolerance(&res[107],Rtable,Ttable,&table,R5,T5,&link5,tolerance);
@@ -504,39 +504,35 @@ int collisionDetection::collision_state(Matrix M, State q)
 		PQP_Tolerance(&res[113],Rtable,Ttable,&table,R72,T72,&link72,tolerance);
 		PQP_Tolerance(&res[114],Rtable,Ttable,&table,Rrod_v,Trod,&rod,tolerance);
 
+		// Route
+		MRotZ(Rcone, -1.9708);
+		Tcone[0] = 737; Tcone[1] = 311; Tcone[2] = 20;
 
-		// Wall
-		/*MRotZ(Rwall,0*3.1415926/180);
-		//Twall[0] = 980; Twall[1] = -125; Twall[2] = 50;
-		Twall[0] = 1010; Twall[1] = -20; Twall[2] = 170;
-
-		PQP_Tolerance(&res[115],Rwall,Twall,&wall,REE,TEE,&EE,tolerance);
-		PQP_Tolerance(&res[116],Rwall,Twall,&wall,R5,T5,&link5,tolerance);
-		PQP_Tolerance(&res[117],Rwall,Twall,&wall,R6,T6,&link6,tolerance);
-		PQP_Tolerance(&res[118],Rwall,Twall,&wall,R7,T7,&link7,tolerance);
-		PQP_Tolerance(&res[119],Rwall,Twall,&wall,REE2,TEE2,&EE2,tolerance);
-		PQP_Tolerance(&res[120],Rwall,Twall,&wall,R52,T52,&link52,tolerance);
-		PQP_Tolerance(&res[121],Rwall,Twall,&wall,R62,T62,&link62,tolerance);
-		PQP_Tolerance(&res[122],Rwall,Twall,&wall,R72,T72,&link72,tolerance);
-		PQP_Tolerance(&res[123],Rwall,Twall,&wall,Rrod_v,Trod,&rod,tolerance);*/
-
+		PQP_Tolerance(&res[115],Rcone,Tcone,&route,REE,TEE,&EE,tolerance);
+		PQP_Tolerance(&res[116],Rcone,Tcone,&route,R5,T5,&link5,tolerance);
+		PQP_Tolerance(&res[117],Rcone,Tcone,&route,R6,T6,&link6,tolerance);
+		PQP_Tolerance(&res[118],Rcone,Tcone,&route,R7,T7,&link7,tolerance);
+		PQP_Tolerance(&res[119],Rcone,Tcone,&route,REE2,TEE2,&EE2,tolerance);
+		PQP_Tolerance(&res[120],Rcone,Tcone,&route,R52,T52,&link52,tolerance);
+		PQP_Tolerance(&res[121],Rcone,Tcone,&route,R62,T62,&link62,tolerance);
+		PQP_Tolerance(&res[122],Rcone,Tcone,&route,R72,T72,&link72,tolerance);
+		PQP_Tolerance(&res[123],Rcone,Tcone,&route,Rrod_v,Trod,&rod,tolerance);
 
 		// Obs1
-		/*MRotZ(Rwall,0);
-		//Twall[0] = 980; Twall[1] = -125; Twall[2] = 50;
-		Twall[0] = 900; Twall[1] = -175; Twall[2] = -100;
+		MRotZ(Rcone,0);
+		Tcone[0] = 735; Tcone[1] = -300; Tcone[2] = 20;
 
-		PQP_Tolerance(&res[115],Rwall,Twall,&obs,REE,TEE,&EE,tolerance);
-		PQP_Tolerance(&res[116],Rwall,Twall,&obs,R5,T5,&link5,tolerance);
-		PQP_Tolerance(&res[117],Rwall,Twall,&obs,R6,T6,&link6,tolerance);
-		PQP_Tolerance(&res[118],Rwall,Twall,&obs,R7,T7,&link7,tolerance);
-		PQP_Tolerance(&res[119],Rwall,Twall,&obs,REE2,TEE2,&EE2,tolerance);
-		PQP_Tolerance(&res[120],Rwall,Twall,&obs,R52,T52,&link52,tolerance);
-		PQP_Tolerance(&res[121],Rwall,Twall,&obs,R62,T62,&link62,tolerance);
-		PQP_Tolerance(&res[122],Rwall,Twall,&obs,R72,T72,&link72,tolerance);
-		PQP_Tolerance(&res[123],Rwall,Twall,&obs,Rrod,Trod,&rod,tolerance);*/
+		PQP_Tolerance(&res[124],Rcone,Tcone,&obs,REE,TEE,&EE,tolerance);
+		PQP_Tolerance(&res[125],Rcone,Tcone,&obs,R5,T5,&link5,tolerance);
+		PQP_Tolerance(&res[126],Rcone,Tcone,&obs,R6,T6,&link6,tolerance);
+		PQP_Tolerance(&res[127],Rcone,Tcone,&obs,R7,T7,&link7,tolerance);
+		PQP_Tolerance(&res[128],Rcone,Tcone,&obs,REE2,TEE2,&EE2,tolerance);
+		PQP_Tolerance(&res[129],Rcone,Tcone,&obs,R52,T52,&link52,tolerance);
+		PQP_Tolerance(&res[130],Rcone,Tcone,&obs,R62,T62,&link62,tolerance);
+		PQP_Tolerance(&res[131],Rcone,Tcone,&obs,R72,T72,&link72,tolerance);
+		PQP_Tolerance(&res[132],Rcone,Tcone,&obs,Rrod_v,Trod,&rod,tolerance);
 
-		num_links2check = 114;
+		num_links2check = 132;
 	}
 
 	clock_t end = clock();
@@ -966,13 +962,12 @@ void collisionDetection::load_models(){
 		collisionDetection::table.EndModel();
 		fclose(fp);
 
-
-		// Wall
-		fp = fopen(CADLINK "wall4s.tris","r");
-		if (fp == NULL) { fprintf(stderr,"Couldn't open pedestal.tris\n"); exit(-1); }
+		// Routing
+		fp = fopen(CADLINK "route2.tris","r");
+		if (fp == NULL) { fprintf(stderr,"Couldn't open route2.tris\n"); exit(-1); }
 		fscanf(fp,"%d",&ntris);
 
-		collisionDetection::wall.BeginModel();
+		collisionDetection::route.BeginModel();
 		for (i = 0; i < ntris; i++)
 		{
 			double p1x,p1y,p1z,p2x,p2y,p2z,p3x,p3y,p3z;
@@ -982,12 +977,12 @@ void collisionDetection::load_models(){
 			p1[0] = (PQP_REAL)p1x; p1[1] = (PQP_REAL)p1y; p1[2] = (PQP_REAL)p1z;
 			p2[0] = (PQP_REAL)p2x; p2[1] = (PQP_REAL)p2y; p2[2] = (PQP_REAL)p2z;
 			p3[0] = (PQP_REAL)p3x; p3[1] = (PQP_REAL)p3y; p3[2] = (PQP_REAL)p3z;
-			collisionDetection::wall.AddTri(p1,p2,p3,i);
+			collisionDetection::route.AddTri(p1,p2,p3,i);
 		}
-		collisionDetection::wall.EndModel();
+		collisionDetection::route.EndModel();
 		fclose(fp);
 
-		// Wall
+		// Pole
 		fp = fopen(CADLINK "obs.tris","r");
 		if (fp == NULL) { fprintf(stderr,"Couldn't open obs.tris\n"); exit(-1); }
 		fscanf(fp,"%d",&ntris);
