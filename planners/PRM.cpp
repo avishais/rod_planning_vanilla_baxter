@@ -651,7 +651,7 @@ void ompl::geometric::PRM::save2file(ompl::base::ProblemDefinitionPtr pdef) {
 
 	Matrix path, Apath;
 	ompl::base::State *state;
-	State a(6), q(12);
+	State a(na), q(nq);
 	for( size_t i = 0 ; i < states.size( ) ; ++i ) {
 		state = states[i]->as< ob::State >();
 		retrieveStateVector(state, a, q);
@@ -671,9 +671,9 @@ void ompl::geometric::PRM::save2file(ompl::base::ProblemDefinitionPtr pdef) {
 		myfile << path.size() << endl;
 
 		for (int i = 0; i < path.size(); i++) {
-			for (int j = 0; j < 6; j++)
+			for (int j = 0; j < na; j++)
 				myfile << a[j] << " ";
-			for (int j = 0; j < 12; j++)
+			for (int j = 0; j < nq; j++)
 				myfile << q[j] << " ";
 			myfile << endl;
 		}
@@ -694,7 +694,7 @@ void ompl::geometric::PRM::save2file(ompl::base::ProblemDefinitionPtr pdef) {
 			myfile << q[j] << " ";
 		}
 		myfile << endl;
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < na; j++)
 			afile << a[j] << " ";
 		afile << endl;
 		rod_solve(a); // Log points on rod to file
@@ -708,9 +708,9 @@ void ompl::geometric::PRM::save2file(ompl::base::ProblemDefinitionPtr pdef) {
 		int count = 1;
 		for (int i = 1; i < path.size(); i++) {
 
-			StateVector S1(6);
+			StateVector S1(nq);
 			S1.copy(Apath[i-1], path[i-1]);
-			StateVector S2(6);
+			StateVector S2(nq);
 			S2.copy(Apath[i], path[i]);
 
 			Matrix M, A;
@@ -729,7 +729,7 @@ void ompl::geometric::PRM::save2file(ompl::base::ProblemDefinitionPtr pdef) {
 				for (int j = 0; j < M[k].size(); j++)
 					myfile << M[k][j] << " ";
 				myfile << endl;
-				for (int j = 0; j < 6; j++)
+				for (int j = 0; j < na; j++)
 					afile << A[k][j] << " ";
 				afile << endl;
 				rod_solve(A[k]); // Log points on rod to file

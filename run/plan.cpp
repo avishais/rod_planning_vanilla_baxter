@@ -50,17 +50,17 @@ ob::PlannerPtr plan_C::allocatePlanner(ob::SpaceInformationPtr si, plannerType p
             return std::make_shared<og::CBiRRT>(si, maxStep);
             break;
         }
-        /*case PLANNER_RRT:
+        case PLANNER_RRT:
         {
             return std::make_shared<og::RRT>(si, maxStep);
             break;
-        }*/
+        }
         /*case PLANNER_LAZYRRT:
         {
             return std::make_shared<og::LazyRRT>(si, maxStep);
             break;
         }*/
-        /*case PLANNER_PRM:
+        case PLANNER_PRM:
         {
             return std::make_shared<og::PRM>(si);
             break;
@@ -69,7 +69,7 @@ ob::PlannerPtr plan_C::allocatePlanner(ob::SpaceInformationPtr si, plannerType p
         {
             return std::make_shared<og::SBL>(si, maxStep);
             break;
-        }*/
+        }
         default:
         {
             OMPL_ERROR("Planner-type enum is not implemented in allocation function.");
@@ -159,13 +159,13 @@ void plan_C::plan(State c_start, State c_goal, double runtime, plannerType ptype
 	// set the start and goal states
 	pdef->setStartAndGoalStates(start, goal);
 	pdef->print();
-/*
+
 	// Register new projection evaluator
 	if (ptype == PLANNER_SBL) {
 		//Cspace->registerProjection("myProjection", ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
 		Cspace->registerDefaultProjection(ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
 	}
-*/
+
 	maxStep = max_step;
 	// create a planner for the defined space
 	// To add a planner, the #include library must be added above
@@ -229,11 +229,13 @@ int main(int argn, char ** args) {
 	if (argn == 1) {
 		runtime = 1; // sec
 		ptype = PLANNER_CBIRRT;
+		plannerName = "CBiRRT";
 		env = 1;
 	}
 	else if (argn == 2) {
 		runtime = atof(args[1]);
 		ptype = PLANNER_CBIRRT;
+		plannerName = "CBiRRT";
 		env = 1;
 	}
 	else if (argn > 2) {
@@ -271,7 +273,7 @@ int main(int argn, char ** args) {
 
 	plan_C Plan;
 
-	srand (time(NULL));
+	srand( time(NULL) );
 
 	State c_start, c_goal;
 	if (env == 1) {
@@ -289,10 +291,10 @@ int main(int argn, char ** args) {
 
 	}
 
-	int mode = 1;
+	int mode = 3;
 	switch (mode) {
 	case 1: {
-		Plan.plan(c_start, c_goal, runtime, ptype, 2.6);
+		Plan.plan(c_start, c_goal, runtime, ptype, 1);
 
 		break;
 	}
@@ -323,7 +325,7 @@ int main(int argn, char ** args) {
 		else if (env == 2)
 			F.open("./matlab/Benchmark_" + plannerName + "_env2_rB.txt", ios::app);
 
-		for (int k = 0; k < 250; k++) {
+		for (int k = 0; k < 100; k++) {
 
 			for (int j = 0; j < 11; j++) {
 				double maxStep = 0.2 + 0.3*j;

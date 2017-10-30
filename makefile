@@ -24,7 +24,7 @@ CPPPQP = ${INC_VALIDITY}collisionDetection.cpp ${INC_VALIDITY}model.cpp
 CPPROD = ${INC_CLASSES}Rod_ODE_class.cpp
 CPPROB = ${INC_CLASSES}kdl_class.cpp ${INC_VALIDITY}StateValidityChecker.cpp
 
-CPPPLN = ${INC_RUN}plan.cpp ${INC_PLANNERS}CBiRRT.cpp #${INC_PLANNERS}RRT.cpp ${INC_PLANNERS}SBL.cpp ${INC_PLANNERS}PRM.cpp
+CPPPLN = ${INC_RUN}plan.cpp ${INC_PLANNERS}CBiRRT.cpp ${INC_PLANNERS}RRT.cpp ${INC_PLANNERS}SBL.cpp ${INC_PLANNERS}PRM.cpp
 
 
 all:

@@ -69,8 +69,8 @@ public:
 		const ompl::base::RealVectorStateSpace::StateType *Q = C_state->as<ompl::base::RealVectorStateSpace::StateType>(1);
 
 		projection(0) = (A->values[0] + A->values[3]) / 2;
-		projection(1) = (Q->values[0] + Q->values[6]) / 2;
-		projection(2) = (Q->values[2] + Q->values[8]) / 2;
+		projection(1) = (Q->values[0] + Q->values[7]) / 2;
+		projection(2) = (Q->values[2] + Q->values[9]) / 2;
 	}
 };
 

@@ -113,7 +113,7 @@ void StateValidityChecker::printStateVector(const ob::State *state) {
 
 bool StateValidityChecker::GDsample(ob::State *st) {
 
-	State a(na), q(nq), q1(nq/2), q2(nq/2);
+	State a(na), q(nq);
 
 	if (!GDsample(a, q))
 		return false;
@@ -150,7 +150,7 @@ bool StateValidityChecker::GDsample(State &a, State &q) {
 			break;
 		}
 	}
-
+cout << "Valid sample" << endl;
 	return true;
 }
 
@@ -204,7 +204,6 @@ bool StateValidityChecker::GDproject(State &q, Matrix Q) {
 }
 
 // ----------------------- ^ GD functions ^ ----------------------------
-
 
 // ---------------------------------------------------------------
 

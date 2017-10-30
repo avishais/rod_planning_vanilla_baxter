@@ -294,7 +294,7 @@ void ompl::geometric::RRT::save2file(vector<Motion*> mpath) {
 
 	cout << "Logging path to files..." << endl;
 
-	State a(6), q(12);
+	State a(na), q(nq);
 	vector<Motion*> path;
 
 	{ // Save only milestones
@@ -306,9 +306,9 @@ void ompl::geometric::RRT::save2file(vector<Motion*> mpath) {
 
 		for (int i = mpath.size()-1 ; i >= 0; i--) {
 			retrieveStateVector(mpath[i]->state, a, q);
-			for (int j = 0; j < 6; j++)
+			for (int j = 0; j < na; j++)
 				myfile << a[j] << " ";
-			for (int j = 0; j < 12; j++)
+			for (int j = 0; j < nq; j++)
 				myfile << q[j] << " ";
 			myfile << endl;
 			path.push_back(mpath[i]);
@@ -330,7 +330,7 @@ void ompl::geometric::RRT::save2file(vector<Motion*> mpath) {
 			myfile << q[j] << " ";
 		}
 		myfile << endl;
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < na; j++)
 			afile << a[j] << " ";
 		afile << endl;
 		rod_solve(a); // Log points on rod to file
@@ -356,7 +356,7 @@ void ompl::geometric::RRT::save2file(vector<Motion*> mpath) {
 				for (int j = 0; j < M[k].size(); j++)
 					myfile << M[k][j] << " ";
 				myfile << endl;
-				for (int j = 0; j < 6; j++)
+				for (int j = 0; j < na; j++)
 					afile << A[k][j] << " ";
 				afile << endl;
 				rod_solve(A[k]); // Log points on rod to file

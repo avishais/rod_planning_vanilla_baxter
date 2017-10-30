@@ -6,7 +6,7 @@ clear all
 clc
 
 %%
-planners = {'CBiRRT','RRT','SBL','LazyRRT'};
+planners = {'CBiRRT','RRT','SBL','PRM'};
 plannerType = planners{1};
 switch plannerType
     case 'CBiRRT'
@@ -14,7 +14,7 @@ switch plannerType
     case 'RRT'
         D = load('Benchmark_RRT_env1_rB.txt'); D = D(D(:,2)==1,:);
     case 'SBL'
-        D = load('Benchmark_SBL_env1_rB.txt'); D = D(D(:,2)==1,:);
+        D = load('Benchmark_SBL_env1_rB.txt'); %D = D(D(:,2)==1,:);
 end
 
 %% 
@@ -31,8 +31,10 @@ end
 %%
 disp(' ');
 [tdmin, id] = min(td);
-% id = 2;
-% tdmin = td(id);
+
+% For CBiRRT
+id = 9; 
+tdmin = td(id);
 
 %%
 h = figure(1);
