@@ -124,7 +124,6 @@ void plan_C::plan(State c_start, State c_goal, double runtime, plannerType ptype
 	Qbounds.setHigh(12, 2.094);
 	Qbounds.setLow(13, -3.059); // W2
 	Qbounds.setHigh(13, 3.059);
-
 	// set the bound for the compound space
 	cs->as<ob::RealVectorStateSpace>(0)->setBounds(Abounds);
 	cs->as<ob::RealVectorStateSpace>(1)->setBounds(Qbounds);
