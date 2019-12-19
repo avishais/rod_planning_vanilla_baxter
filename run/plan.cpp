@@ -60,16 +60,16 @@ ob::PlannerPtr plan_C::allocatePlanner(ob::SpaceInformationPtr si, plannerType p
             return std::make_shared<og::LazyRRT>(si, maxStep);
             break;
         }*/
-        case PLANNER_PRM:
-        {
-            return std::make_shared<og::PRM>(si);
-            break;
-        }
-        case PLANNER_SBL:
-        {
-            return std::make_shared<og::SBL>(si, maxStep);
-            break;
-        }
+        // case PLANNER_PRM:
+        // {
+        //     return std::make_shared<og::PRM>(si);
+        //     break;
+        // }
+        // case PLANNER_SBL:
+        // {
+        //     return std::make_shared<og::SBL>(si, maxStep);
+        //     break;
+        // }
         default:
         {
             OMPL_ERROR("Planner-type enum is not implemented in allocation function.");
@@ -162,10 +162,10 @@ void plan_C::plan(State c_start, State c_goal, double runtime, plannerType ptype
 	pdef->print();
 
 	// Register new projection evaluator
-	if (ptype == PLANNER_SBL) {
-		//Cspace->registerProjection("myProjection", ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
-		Cspace->registerDefaultProjection(ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
-	}
+	// if (ptype == PLANNER_SBL) {
+	// 	//Cspace->registerProjection("myProjection", ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
+	// 	Cspace->registerDefaultProjection(ob::ProjectionEvaluatorPtr(new MyProjection(Cspace)));
+	// }
 
 	maxStep = max_step;
 	// create a planner for the defined space
@@ -292,7 +292,7 @@ int main(int argn, char ** args) {
 
 	}
 
-	int mode = 3;
+	int mode = 1;
 	switch (mode) {
 	case 1: {
 		Plan.plan(c_start, c_goal, runtime, ptype, 1);
@@ -303,9 +303,9 @@ int main(int argn, char ** args) {
 		ofstream GD;
 		GD.open("./matlab/profile/profile_" + plannerName + "_env2.txt", ios::app);
 
-		for (int k = 0; k < 100; k++) {
-			//Plan.plan(c_start, c_goal, runtime, ptype, 2.6); // CBiRRT
-			Plan.plan(c_start, c_goal, runtime, ptype, 0.6); // SBL
+		for (int k = 0; k < 10; k++) {
+			Plan.plan(c_start, c_goal, runtime, ptype, 2.6); // CBiRRT
+			// Plan.plan(c_start, c_goal, runtime, ptype, 0.6); // SBL
 
 			// Extract from perf file
 			ifstream FromFile;

@@ -396,7 +396,7 @@ ompl::base::PlannerStatus ompl::geometric::CBiRRT::solve(const base::PlannerTerm
 
 			final_solved = true;
 			LogPerf2file(); // Log planning parameters
-			//save2file(mpath1, mpath2);
+			save2file(mpath1, mpath2);
 
 			pdef_->addSolutionPath(base::PathPtr(path), false, 0.0, getName());
 			solved = true;
